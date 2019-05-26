@@ -1,5 +1,7 @@
 package pl.bykowski.springbootapi;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -43,4 +45,15 @@ public class AnimalApi {
     public boolean deleteAnimal(@RequestParam Long id) {
         return animals.removeIf(x -> x.getId().equals(id));
     }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void init() {
+        Animal animal = new Animal();
+        animal.setId(1L);
+        animal.setName("Pucek");
+        animal.setAge(11);
+        animals.add(animal);
+    }
+
+
 }
